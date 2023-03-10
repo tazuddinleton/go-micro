@@ -7,7 +7,7 @@ services:
       dockerfile: ./../broker-service/broker-service.dockerfile
     restart: always
     ports:
-      - "8090:80"      
+      - "8091:80"      
     deploy: 
       mode: replicated
       replicas: 1
