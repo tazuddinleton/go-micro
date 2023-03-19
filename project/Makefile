@@ -1,5 +1,6 @@
 FRONT_END_BIN=frontApp
 BROKER_BIN=brokerService
+AUTH_BIN=authService
 
 ## up: starts all containers in the background without forcing build
 up:	
@@ -8,7 +9,7 @@ up:
 	@echo "Docker container started."
 
 ## up_build: stops docker-compose, builds all projects and starts docker compose
-up_build:	down
+up_build:	down build_broker build_auth
 	@echo "Re building docker images (if necessary)..."
 	docker-compose up --build -d
 	@echo "Started."
@@ -21,6 +22,11 @@ down:
 build_broker:	
 	@echo "Building broker binary..."
 	cd ../broker-service && env GOOS=linux CGO_ENABLED=0 go build -o ${BROKER_BIN} ./cmd/api
+	@echo "Done."
+
+build_auth:
+	@echo "Building auth service binary..."
+	cd ../auth-service && env GOOS=linux CGO_ENABLED=0 go build -o ${AUTH_BIN} ./cmd/api
 	@echo "Done."
 
 build_front:
