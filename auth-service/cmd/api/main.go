@@ -3,6 +3,7 @@ package main
 import (
 	"auth/cmd/data"
 	"database/sql"
+	"flag"
 	"fmt"
 	_ "github.com/jackc/pgconn"
 	_ "github.com/jackc/pgx/v4"
@@ -13,7 +14,8 @@ import (
 	"time"
 )
 
-const Port = "80"
+var Port = flag.String("port", "80", "auth service port")
+
 const DbConnRetry = 10
 
 type AppConfig struct {
@@ -22,6 +24,7 @@ type AppConfig struct {
 }
 
 func main() {
+	flag.Parse()
 	log.Println("Starting authentication service")
 
 	db := connectToDB()
@@ -35,7 +38,7 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", Port),
+		Addr:    fmt.Sprintf(":%s", *Port),
 		Handler: app.routes(),
 	}
 

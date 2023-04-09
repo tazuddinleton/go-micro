@@ -27,7 +27,7 @@ func (app *AppConfig) Authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("valid user found: ", user)
-	valid, err := app.Models.User.PasswordMatches(reqPayload.Password)
+	valid, err := user.PasswordMatches(reqPayload.Password)
 
 	if !valid {
 		log.Println("password didn't  match!   ", reqPayload.Password)
