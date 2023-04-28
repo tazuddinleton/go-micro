@@ -26,19 +26,19 @@ services:
     environment:
       DSN: "host=postgres port=5432 user=postgres password=Pass@123 dbname=users timezone=UTC sslmode=disable connect_timeout=5"
 
-#  logger-service:
-#    build:
-#      context: ./../logger-service
-#      dockerfile: ./../auth-service/auth-service.dockerfile
-#    restart: always
-#    ports:
-#      - "8093:80"
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#    environment:
-#      MongoUser: "mongouser"
-#      MongoPassword: "password"
+  logger-service:
+    build:
+      context: ./../logger-service
+      dockerfile: ./../logger-service/logger-service.dockerfile
+    restart: always
+    ports:
+      - "8093:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      MongoUsername: "root"
+      MongoPassword: "password"
 
   postgres:
     image: "postgres:14.2"
@@ -56,13 +56,14 @@ services:
       - ./db-data/postgres:/var/lib/postgresql/data/
 
   mongo:
-    image: "mongo:4.2.17-bionic"
+    image: "mongo:latest"
     ports:
-      - "27107:27107"
+      - "27017:27017"
     restart: always
     environment:
       MONGO_INITDB_DATABASE: logs
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: Pass@123
+      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./db-data/mongodb:/data/db
+
