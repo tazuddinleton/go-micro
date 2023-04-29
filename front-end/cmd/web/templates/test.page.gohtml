@@ -8,7 +8,7 @@
                 <hr>
                 <a id="brokerBtn" class="btn btn-outline-secondary" href="javascript:void(0);"> Test Broker</a>
                 <a id="authBtn" class="btn btn-outline-secondary" href="javascript:void(0);"> Test Auth</a>
-
+                <a id="logBtn" class="btn btn-outline-secondary" href="javascript:void(0);"> Test Log</a>
                 <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
                     <span class="text-muted">Output shows here...</span>
                 </div>
@@ -35,6 +35,7 @@
     <script>
         const brokerBtn = document.getElementById('brokerBtn');
         const authBtn = document.getElementById('authBtn');
+        const logBtn = document.getElementById('logBtn');
         const output = document.getElementById('output');
         const sent = document.getElementById('payload');
         const received = document.getElementById('received');
@@ -71,7 +72,21 @@
                     password: "verysecret"
                 }
             }
+            doPost(payload);
+        });
 
+        logBtn.addEventListener('click', () => {
+            const payload = {
+                Action: "log",
+                Log: {
+                    name: "log title",
+                    data: "log message"
+                }
+            }
+            doPost(payload);
+        })
+
+        function doPost(payload) {
             const headers = new Headers();
             headers.append("Content-Type", "application/json");
 
@@ -80,6 +95,7 @@
                 body: JSON.stringify(payload),
                 headers: headers
             }
+
             fetch('http://localhost:8091/handle', request)
                 .then(res => res.json())
                 .then(data => {
@@ -96,9 +112,7 @@
                 .catch(err => {
                     output.innerHTML += `<br><br>Error: ${err}`;
                 });
-        });
-
-        
+        }
 
     </script>
 {{end}}
