@@ -1,17 +1,19 @@
 package main
 
 import (
-	"auth/cmd/data"
 	"database/sql"
 	"flag"
 	"fmt"
-	_ "github.com/jackc/pgconn"
-	_ "github.com/jackc/pgx/v4"
-	_ "github.com/jackc/pgx/v4/stdlib"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
+
+	"auth/cmd/data"
 )
 
 var Port = flag.String("port", "80", "auth service port")
@@ -43,7 +45,6 @@ func main() {
 	}
 
 	err := srv.ListenAndServe()
-
 	if err != nil {
 		log.Panic(err)
 	}

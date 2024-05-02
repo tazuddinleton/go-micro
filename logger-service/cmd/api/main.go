@@ -4,13 +4,15 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
-	"logger-service/data"
 	"net/http"
 	"os"
 	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"logger-service/data"
 )
 
 var webPort = flag.String("port", "80", "Logger service port")
@@ -18,8 +20,7 @@ var webPort = flag.String("port", "80", "Logger service port")
 // var rpcPort = flag.String("rpcport", "5001", "RPC port")
 var mongoUrl = flag.String("mongourl", "mongodb://mongo:27017", "Mongo db connection string")
 
-//var gRpcPort = flag.String("grpcport", "50001", "gRpc port")
-
+// var gRpcPort = flag.String("grpcport", "50001", "gRpc port")
 type AppConfig struct {
 	Models *data.Models
 }
@@ -57,7 +58,6 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-
 }
 
 func connectToMongo() (*mongo.Client, error) {
@@ -65,7 +65,9 @@ func connectToMongo() (*mongo.Client, error) {
 	username := os.Getenv("MongoUsername")
 	password := os.Getenv("MongoPassword")
 	log.Println(fmt.Sprintf("credentials: username: %s, pass: %s", username, password))
-	opt.SetAuth(options.Credential{Username: username, Password: password, AuthMechanism: "SCRAM-SHA-256"})
+	opt.SetAuth(
+		options.Credential{Username: username, Password: password, AuthMechanism: "SCRAM-SHA-256"},
+	)
 
 	conn, err := mongo.Connect(context.TODO(), opt)
 	if err != nil {

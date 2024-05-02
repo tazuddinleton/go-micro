@@ -1,2 +1,4 @@
 frontApp
 brokerService
+**/db-data
+.idea
